@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ data.name }} – Resume</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #ffffff;
+            color: #1e2340;
+            line-height: 1.6;
+            cursor: default;
+        }
+        * { cursor: default !important; }
+        .page {
+            max-width: 860px;
+            margin: 0 auto;
+            background: #ffffff;
+            box-shadow: none;
+            border-radius: 0;
+            overflow: hidden;
+        }
+        /* Top accent */
+        .top-accent { display: none; }
+        /* Header */
+        .header {
+            padding: 40px 48px 36px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 24px;
+            align-items: start;
+            border-bottom: 1px solid #e8ecf8;
+        }
+        .name {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1e2340;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+        }
+        .job-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #4a6cf7;
+            margin-top: 6px;
+            letter-spacing: 0.5px;
+        }
+        .contacts {
+            text-align: right;
+            font-size: 12.5px;
+            color: #5a6080;
+            line-height: 2;
+        }
+        .contacts a { color: #4a6cf7; text-decoration: none; }
+        /* Body */
+        .body { padding: 36px 48px; display: grid; grid-template-columns: 1fr 240px; gap: 40px; }
+        /* Sections */
+        .section { margin-bottom: 28px; }
+        .section-title {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #4a6cf7;
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e8ecf8;
+        }
+        .summary-text { font-size: 13.5px; color: #4a5080; line-height: 1.75; }
+        /* Experience */
+        .exp-title { font-size: 15px; font-weight: 600; color: #1e2340; }
+        .exp-row { display: flex; justify-content: space-between; margin: 4px 0 8px; }
+        .exp-company { font-size: 13px; font-weight: 500; color: #4a6cf7; }
+        .exp-duration {
+            font-size: 11px;
+            background: #eef2fb;
+            color: #4a5080;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+        .exp-desc { font-size: 13px; color: #4a5080; line-height: 1.7; white-space: pre-line; }
+        /* Sidebar */
+        .sidebar-section { margin-bottom: 28px; }
+        .sidebar-title {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #4a6cf7;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e8ecf8;
+        }
+        .skill-tag {
+            display: inline-block;
+            background: #eef2fb;
+            color: #1e2340;
+            font-size: 11.5px;
+            font-weight: 500;
+            padding: 4px 10px;
+            border-radius: 4px;
+            margin: 3px 2px;
+        }
+        .soft-item {
+            font-size: 13px;
+            color: #4a5080;
+            padding: 5px 0;
+            border-bottom: 1px solid #f0f3fd;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .soft-item::before {
+            content: '';
+            width: 5px; height: 5px;
+            background: #4a6cf7;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .edu-degree { font-size: 13.5px; font-weight: 600; color: #1e2340; }
+        .edu-inst { font-size: 12.5px; color: #4a6cf7; margin-top: 2px; }
+        .edu-meta { font-size: 12px; color: #8a90b0; margin-top: 3px; }
+        /* Bottom */
+        .no-print { display: none; }
+        .btn-dl {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #4a6cf7;
+            color: white;
+            padding: 11px 28px;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 13.5px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-dl:hover { background: #3558e0; transform: translateY(-1px); }
+        .btn-edit {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            color: #4a5080;
+            padding: 11px 28px;
+            border: 1px solid #d0d8f0;
+            border-radius: 6px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 13.5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-edit:hover { border-color: #4a6cf7; color: #4a6cf7; }
+
+        /* Floating action bar */
+        .action-bar {
+            position: fixed;
+            bottom: 28px;
+            right: 32px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            z-index: 999;
+        }
+        .action-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #4a6cf7;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer !important;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(74,108,247,0.4);
+            transition: all 0.2s;
+        }
+        .action-primary:hover {
+            background: #3558e0;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(74,108,247,0.5);
+            cursor: pointer !important;
+        }
+        .action-secondary {
+            display: inline-flex;
+            align-items: center;
+            background: white;
+            color: #4a5080;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer !important;
+            text-decoration: none;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            border: 1px solid #e0e4f0;
+            transition: all 0.2s;
+        }
+        .action-secondary:hover { color: #4a6cf7; border-color: #4a6cf7; }
+
+        @media print {
+            body { background: white; }
+            .page { box-shadow: none; margin: 0; }
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <div class="top-accent"></div>
+    <div class="header">
+        <div>
+            <div class="name">{{ data.name }}</div>
+            {% if data.job_title %}<div class="job-title">{{ data.job_title }}</div>{% endif %}
+        </div>
+        <div class="contacts">
+            {% if data.email %}<div>{{ data.email }}</div>{% endif %}
+            {% if data.phone %}<div>{{ data.phone }}</div>{% endif %}
+            {% if data.location %}<div>{{ data.location }}</div>{% endif %}
+            {% if data.linkedin %}<div><a href="#">{{ data.linkedin }}</a></div>{% endif %}
+        </div>
+    </div>
+
+    <div class="body">
+        <div class="main-col">
+            {% if data.summary %}
+            <div class="section">
+                <div class="section-title">About Me</div>
+                <p class="summary-text">{{ data.summary }}</p>
+            </div>
+            {% endif %}
+
+            {% if data.exp_title or data.exp_company %}
+            <div class="section">
+                <div class="section-title">Work Experience</div>
+                <div class="exp-title">{{ data.exp_title }}</div>
+                <div class="exp-row">
+                    <span class="exp-company">{{ data.exp_company }}</span>
+                    {% if data.exp_duration %}<span class="exp-duration">{{ data.exp_duration }}</span>{% endif %}
+                </div>
+                {% if data.exp_desc %}<div class="exp-desc">{{ data.exp_desc }}</div>{% endif %}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="sidebar-col">
+            {% if data.skills %}
+            <div class="sidebar-section">
+                <div class="sidebar-title">Skills</div>
+                {% for skill in data.skills.split(',') %}
+                    <span class="skill-tag">{{ skill.strip() }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if data.soft_skills %}
+            <div class="sidebar-section">
+                <div class="sidebar-title">Soft Skills</div>
+                {% for s in data.soft_skills.split(',') %}
+                    <div class="soft-item">{{ s.strip() }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if data.edu_degree %}
+            <div class="sidebar-section">
+                <div class="sidebar-title">Education</div>
+                <div class="edu-degree">{{ data.edu_degree }}</div>
+                {% if data.edu_institution %}<div class="edu-inst">{{ data.edu_institution }}</div>{% endif %}
+                <div class="edu-meta">
+                    {% if data.edu_year %}{{ data.edu_year }}{% endif %}
+                    {% if data.edu_grade %} · {{ data.edu_grade }}{% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="no-print">
+        <form action="/download" method="POST" style="display:inline;">
+            {% for key, value in data.items() %}
+                <input type="hidden" name="{{ key }}" value="{{ value }}">
+            {% endfor %}
+            <button type="submit" class="btn-dl">⬇ Download PDF</button>
+        </form>
+        <a href="/form" class="btn-edit">✏ Edit Details</a>
+    </div>
+</div>
+
+<!-- Floating pill buttons — outside white resume card, hidden when printing -->
+<div class="action-bar no-print">
+    <a href="/form" class="action-secondary">← Edit</a>
+    <form action="/download" method="POST" style="display:inline;">
+        {% for key, value in data.items() %}
+            <input type="hidden" name="{{ key }}" value="{{ value }}">
+        {% endfor %}
+        <button type="submit" class="action-primary">⬇ Download PDF</button>
+    </form>
+</div>
+</body>
+</html>
