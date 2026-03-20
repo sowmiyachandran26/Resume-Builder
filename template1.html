@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ data.name }} – Resume</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: default !important; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #ffffff;
+            color: #1a1a2e;
+            line-height: 1.6;
+        }
+        .page {
+            max-width: 860px;
+            margin: 0 auto;
+            background: #ffffff;
+        }
+
+        /* ── HEADER ── */
+        .header {
+            background: #1a1a2e;
+            color: #f8f5f0;
+            padding: 48px 52px 44px;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -70px; right: -70px;
+            width: 280px; height: 280px;
+            border: 44px solid rgba(201,168,76,0.07);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -50px; left: 38%;
+            width: 200px; height: 200px;
+            border: 32px solid rgba(201,168,76,0.04);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .header-inner {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 24px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        .header-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 44px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            line-height: 1.05;
+            color: #f8f5f0;
+        }
+        .header-title {
+            font-size: 11px;
+            color: #c9a84c;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 10px;
+            font-weight: 400;
+        }
+        .header-contacts {
+            text-align: right;
+            font-size: 12px;
+            color: rgba(248,245,240,0.6);
+            line-height: 2.1;
+        }
+        .header-contacts span { color: #f8f5f0; display: block; }
+
+        .gold-bar {
+            height: 3px;
+            background: linear-gradient(90deg, #7a5c18, #c9a84c, #e8d5a3, #c9a84c, #7a5c18);
+        }
+
+        /* ── BODY ── */
+        .body {
+            display: grid;
+            grid-template-columns: 210px 1fr;
+            min-height: 580px;
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            background: #f7f4ef;
+            padding: 36px 24px 44px;
+            border-right: 1px solid #e4dfd8;
+        }
+        .sidebar-section { margin-bottom: 30px; }
+        .sidebar-label {
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: #c9a84c;
+            margin-bottom: 13px;
+            padding-bottom: 7px;
+            border-bottom: 1px solid #e0dbd4;
+        }
+        .skill-chip {
+            display: inline-block;
+            background: #1a1a2e;
+            color: #f8f5f0;
+            font-size: 11px;
+            padding: 4px 11px;
+            border-radius: 2px;
+            margin: 3px 2px;
+            font-weight: 300;
+        }
+        .soft-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12.5px;
+            color: #4a4a5a;
+            padding: 6px 0;
+            border-bottom: 1px solid #ede8e1;
+        }
+        .soft-row:last-child { border-bottom: none; }
+        .soft-dot {
+            width: 5px; height: 5px;
+            background: #c9a84c;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .edu-degree { font-size: 13px; font-weight: 500; color: #1a1a2e; line-height: 1.4; }
+        .edu-inst   { font-size: 12px; color: #c9a84c; margin-top: 3px; }
+        .edu-meta   { font-size: 11.5px; color: #8a8a9a; margin-top: 3px; }
+
+        /* ── MAIN ── */
+        .main { padding: 36px 44px 40px 40px; }
+        .section { margin-bottom: 28px; }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 17px;
+            font-weight: 600;
+            color: #1a1a2e;
+            white-space: nowrap;
+        }
+        .section-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(201,168,76,0.4), #e0dbd4);
+        }
+        .summary-text { font-size: 13.5px; color: #4a4a5a; line-height: 1.8; }
+
+        .exp-item { margin-bottom: 18px; }
+        .exp-title { font-size: 14.5px; font-weight: 500; color: #1a1a2e; }
+        .exp-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 4px 0 8px;
+        }
+        .exp-company { font-size: 12.5px; color: #c9a84c; font-weight: 500; }
+        .exp-duration {
+            font-size: 11.5px;
+            color: #8a8a9a;
+            background: #f4f1ec;
+            padding: 2px 9px;
+            border-radius: 20px;
+        }
+        .exp-desc { font-size: 13px; color: #4a4a5a; line-height: 1.75; white-space: pre-line; }
+
+        /* ── HIDDEN INNER BUTTONS ── */
+        .no-print { display: none; }
+
+        /* ── FLOATING ACTION BAR ── */
+        .action-bar {
+            position: fixed;
+            bottom: 28px; right: 32px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            z-index: 999;
+        }
+        .action-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #1a1a2e;
+            color: #f8f5f0;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 30px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13.5px;
+            font-weight: 500;
+            cursor: pointer !important;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(26,26,46,0.35);
+            transition: all 0.2s;
+        }
+        .action-primary:hover {
+            background: #c9a84c;
+            color: #1a1a2e;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(201,168,76,0.4);
+            cursor: pointer !important;
+        }
+        .action-secondary {
+            display: inline-flex;
+            align-items: center;
+            background: #ffffff;
+            color: #4a4a5a;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            cursor: pointer !important;
+            text-decoration: none;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            border: 1px solid #e0dbd4;
+            transition: all 0.2s;
+        }
+        .action-secondary:hover { border-color: #c9a84c; color: #1a1a2e; }
+
+        @media print {
+            .action-bar, .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <div class="header">
+        <div class="header-inner">
+            <div>
+                <div class="header-name">{{ data.name }}</div>
+                {% if data.job_title %}<div class="header-title">{{ data.job_title }}</div>{% endif %}
+            </div>
+            <div class="header-contacts">
+                {% if data.email %}<span>{{ data.email }}</span>{% endif %}
+                {% if data.phone %}<span>{{ data.phone }}</span>{% endif %}
+                {% if data.location %}<span>{{ data.location }}</span>{% endif %}
+                {% if data.linkedin %}<span>{{ data.linkedin }}</span>{% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="gold-bar"></div>
+
+    <div class="body">
+        <div class="sidebar">
+            {% if data.skills %}
+            <div class="sidebar-section">
+                <div class="sidebar-label">Technical Skills</div>
+                {% for skill in data.skills.split(',') %}
+                    <span class="skill-chip">{{ skill.strip() }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if data.soft_skills %}
+            <div class="sidebar-section">
+                <div class="sidebar-label">Soft Skills</div>
+                {% for s in data.soft_skills.split(',') %}
+                    <div class="soft-row"><span class="soft-dot"></span>{{ s.strip() }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if data.edu_degree %}
+            <div class="sidebar-section">
+                <div class="sidebar-label">Education</div>
+                <div class="edu-degree">{{ data.edu_degree }}</div>
+                {% if data.edu_institution %}<div class="edu-inst">{{ data.edu_institution }}</div>{% endif %}
+                <div class="edu-meta">
+                    {% if data.edu_year %}{{ data.edu_year }}{% endif %}
+                    {% if data.edu_grade %} &middot; {{ data.edu_grade }}{% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="main">
+            {% if data.summary %}
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">Profile</div>
+                    <div class="section-line"></div>
+                </div>
+                <p class="summary-text">{{ data.summary }}</p>
+            </div>
+            {% endif %}
+
+            {% if data.exp_title or data.exp_company %}
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">Experience</div>
+                    <div class="section-line"></div>
+                </div>
+                <div class="exp-item">
+                    {% if data.exp_title %}<div class="exp-title">{{ data.exp_title }}</div>{% endif %}
+                    <div class="exp-meta">
+                        <span class="exp-company">{{ data.exp_company }}</span>
+                        {% if data.exp_duration %}<span class="exp-duration">{{ data.exp_duration }}</span>{% endif %}
+                    </div>
+                    {% if data.exp_desc %}<div class="exp-desc">{{ data.exp_desc }}</div>{% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="no-print">
+        <form action="/download" method="POST" style="display:inline;">
+            {% for key, value in data.items() %}
+                <input type="hidden" name="{{ key }}" value="{{ value }}">
+            {% endfor %}
+            <button type="submit">Download PDF</button>
+        </form>
+    </div>
+</div>
+
+<div class="action-bar no-print">
+    <a href="/form" class="action-secondary">← Edit</a>
+    <form action="/download" method="POST" style="display:inline;">
+        {% for key, value in data.items() %}
+            <input type="hidden" name="{{ key }}" value="{{ value }}">
+        {% endfor %}
+        <button type="submit" class="action-primary">⬇ Download PDF</button>
+    </form>
+</div>
+
+</body>
+</html>

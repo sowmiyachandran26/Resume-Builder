@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>Resume Details – ResumeForge</title>
+    <style>
+        :root {
+            --ink: #1a1a2e;
+            --cream: #f8f5f0;
+            --gold: #c9a84c;
+            --gold-light: #e8d5a3;
+            --muted: #6b6b7b;
+            --border: #ddd8d0;
+            --white: #ffffff;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--ink);
+            min-height: 100vh;
+            padding: 40px 20px 80px;
+        }
+        .page-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .page-header a {
+            font-size: 13px;
+            color: var(--muted);
+            text-decoration: none;
+            letter-spacing: 0.5px;
+        }
+        .page-header a:hover { color: var(--gold); }
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            margin-top: 16px;
+            letter-spacing: -0.5px;
+        }
+        .page-header p {
+            color: var(--muted);
+            margin-top: 8px;
+            font-size: 14px;
+        }
+        .form-wrapper {
+            max-width: 760px;
+            margin: 0 auto;
+        }
+        /* Section card */
+        .card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card-title .num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px; height: 26px;
+            background: var(--ink);
+            color: var(--cream);
+            border-radius: 50%;
+            font-size: 12px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+        /* Grid layout */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .grid-1 { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        @media(max-width: 580px) { .grid-2 { grid-template-columns: 1fr; } }
+        /* Fields */
+        .field { display: flex; flex-direction: column; gap: 6px; }
+        label {
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        input, textarea, select {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            padding: 11px 14px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--cream);
+            color: var(--ink);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+            background: var(--white);
+        }
+        textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+        /* Skills chips preview */
+        .skills-hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
+        /* Template picker */
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 4px;
+        }
+        @media(max-width: 580px) { .template-grid { grid-template-columns: 1fr; } }        .template-option input[type="radio"] { display: none; }
+        .template-card {
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 16px 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .template-option input:checked + .template-card {
+            border-color: var(--gold);
+            background: #fdf8ee;
+            box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
+        }
+        .template-card:hover { border-color: var(--gold-light); }
+        .template-card .t-preview {
+            height: 70px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            padding: 8px;
+            gap: 4px;
+            overflow: hidden;
+        }
+        .t1 .t-preview { background: #1a1a2e; }
+        .t2 .t-preview { background: #f0f4ff; border: 1px solid #d0d8f0; }
+        .t3 .t-preview { background: #fff8f0; border: 1px solid #f0d8c0; }
+        .t-bar { height: 6px; border-radius: 3px; }
+        .t1 .t-bar { background: rgba(201,168,76,0.8); }
+        .t2 .t-bar { background: #4a6cf7; }
+        .t3 .t-bar { background: #d4692a; }
+        .t-line { height: 3px; border-radius: 2px; }
+        .t1 .t-line { background: rgba(255,255,255,0.2); }
+        .t2 .t-line { background: rgba(74,108,247,0.25); }
+        .t3 .t-line { background: rgba(212,105,42,0.2); }
+        .t4 .t-preview { background: #0d0f14; }
+        .t5 .t-preview { background: #1c1c1c; display: flex; flex-direction: row; gap: 0; padding: 0; overflow: hidden; }
+        .t4 .t-bar { background: #3ddc84; }
+        .t5 .t-bar { background: #c0392b; }
+        .t4 .t-line { background: rgba(61,220,132,0.2); }
+        .t5 .t-left-strip { width: 30%; background: #1c1c1c; height: 100%; }
+        .t5 .t-right-area { flex: 1; background: #faf9f6; padding: 8px; display: flex; flex-direction: column; gap: 4px; }
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--ink);
+        }
+        .template-card .t-desc {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+        /* Submit */
+        .submit-row {
+            display: flex;
+            justify-content: flex-end;
+            gap: 14px;
+            margin-top: 8px;
+        }
+        .btn-ghost {
+            padding: 13px 28px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: transparent;
+            color: var(--muted);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        .btn-ghost:hover { border-color: var(--ink); color: var(--ink); }
+        .btn-submit {
+            padding: 13px 36px;
+            background: var(--ink);
+            color: var(--cream);
+            border: none;
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-submit:hover {
+            background: var(--gold);
+            color: var(--ink);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(201,168,76,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <a href="/">← Back to Home</a>
+        <h1>Your Details</h1>
+        <p>Fill in the sections below — only name & email are required.</p>
+    </div>
+
+    <div class="form-wrapper">
+        <form action="/resume" method="POST">
+
+            <!-- 1. Personal Info -->
+            <div class="card">
+                <div class="card-title"><span class="num">1</span> Personal Information</div>
+                <div class="grid-2">
+                    <div class="field">
+                        <label>Full Name *</label>
+                        <input type="text" name="name" placeholder="e.g. Arjun Kumar" required>
+                    </div>
+                    <div class="field">
+                        <label>Job Title / Role</label>
+                        <input type="text" name="job_title" placeholder="e.g. Software Engineer">
+                    </div>
+                    <div class="field">
+                        <label>Email *</label>
+                        <input type="email" name="email" placeholder="you@example.com" required>
+                    </div>
+                    <div class="field">
+                        <label>Phone</label>
+                        <input type="text" name="phone" placeholder="+91 98765 43210">
+                    </div>
+                    <div class="field">
+                        <label>Location</label>
+                        <input type="text" name="location" placeholder="City, Country">
+                    </div>
+                    <div class="field">
+                        <label>LinkedIn / Portfolio URL</label>
+                        <input type="text" name="linkedin" placeholder="linkedin.com/in/yourname">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Summary -->
+            <div class="card">
+                <div class="card-title"><span class="num">2</span> Professional Summary</div>
+                <div class="grid-1">
+                    <div class="field">
+                        <label>Summary</label>
+                        <textarea name="summary" placeholder="A brief 2–3 sentence overview of your professional background and what you bring to the table..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Experience -->
+            <div class="card">
+                <div class="card-title"><span class="num">3</span> Work Experience</div>
+                <div class="grid-2">
+                    <div class="field">
+                        <label>Job Title</label>
+                        <input type="text" name="exp_title" placeholder="e.g. Frontend Developer">
+                    </div>
+                    <div class="field">
+                        <label>Company</label>
+                        <input type="text" name="exp_company" placeholder="e.g. Infosys">
+                    </div>
+                    <div class="field">
+                        <label>Duration</label>
+                        <input type="text" name="exp_duration" placeholder="e.g. Jan 2022 – Present">
+                    </div>
+                </div>
+                <div class="grid-1" style="margin-top:20px;">
+                    <div class="field">
+                        <label>Responsibilities / Achievements</label>
+                        <textarea name="exp_desc" placeholder="• Built a dashboard that reduced reporting time by 40%&#10;• Led a team of 4 engineers..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Education -->
+            <div class="card">
+                <div class="card-title"><span class="num">4</span> Education</div>
+                <div class="grid-2">
+                    <div class="field">
+                        <label>Degree</label>
+                        <input type="text" name="edu_degree" placeholder="e.g. B.Tech Computer Science">
+                    </div>
+                    <div class="field">
+                        <label>Institution</label>
+                        <input type="text" name="edu_institution" placeholder="e.g. Anna University">
+                    </div>
+                    <div class="field">
+                        <label>Year of Passing</label>
+                        <input type="text" name="edu_year" placeholder="e.g. 2023">
+                    </div>
+                    <div class="field">
+                        <label>CGPA / Percentage</label>
+                        <input type="text" name="edu_grade" placeholder="e.g. 8.4 / 10">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Skills -->
+            <div class="card">
+                <div class="card-title"><span class="num">5</span> Skills</div>
+                <div class="grid-1">
+                    <div class="field">
+                        <label>Technical Skills</label>
+                        <input type="text" name="skills" placeholder="Python, React, SQL, Figma, Git">
+                        <span class="skills-hint">Separate each skill with a comma</span>
+                    </div>
+                    <div class="field">
+                        <label>Soft Skills</label>
+                        <input type="text" name="soft_skills" placeholder="Leadership, Communication, Problem-Solving">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Template -->
+            <div class="card">
+                <div class="card-title"><span class="num">6</span> Choose a Template</div>
+                <div class="template-grid">
+                    <label class="template-option t1">
+                        <input type="radio" name="template" value="1" checked>
+                        <div class="template-card">
+                            <div class="t-preview">
+                                <div class="t-bar" style="width:60%"></div>
+                                <div class="t-line" style="width:40%"></div>
+                                <div class="t-line" style="width:80%"></div>
+                                <div class="t-line" style="width:55%"></div>
+                            </div>
+                            <div class="t-name">Executive Dark</div>
+                            <div class="t-desc">Bold & authoritative</div>
+                        </div>
+                    </label>
+                    <label class="template-option t2">
+                        <input type="radio" name="template" value="2">
+                        <div class="template-card">
+                            <div class="t-preview">
+                                <div class="t-bar" style="width:55%"></div>
+                                <div class="t-line" style="width:45%"></div>
+                                <div class="t-line" style="width:75%"></div>
+                                <div class="t-line" style="width:60%"></div>
+                            </div>
+                            <div class="t-name">Clean Blue</div>
+                            <div class="t-desc">Modern & professional</div>
+                        </div>
+                    </label>
+                    <label class="template-option t3">
+                        <input type="radio" name="template" value="3">
+                        <div class="template-card">
+                            <div class="t-preview">
+                                <div class="t-bar" style="width:50%"></div>
+                                <div class="t-line" style="width:35%"></div>
+                                <div class="t-line" style="width:70%"></div>
+                                <div class="t-line" style="width:50%"></div>
+                            </div>
+                            <div class="t-name">Warm Classic</div>
+                            <div class="t-desc">Elegant & timeless</div>
+                        </div>
+                    </label>
+                    <label class="template-option t4">
+                        <input type="radio" name="template" value="4">
+                        <div class="template-card">
+                            <div class="t-preview">
+                                <div class="t-bar" style="width:50%"></div>
+                                <div class="t-line" style="width:40%"></div>
+                                <div class="t-line" style="width:75%"></div>
+                                <div class="t-line" style="width:55%"></div>
+                            </div>
+                            <div class="t-name">Midnight Dark</div>
+                            <div class="t-desc">Tech & creative</div>
+                        </div>
+                    </label>
+                    <label class="template-option t5">
+                        <input type="radio" name="template" value="5">
+                        <div class="template-card">
+                            <div class="t-preview">
+                                <div class="t-left-strip"></div>
+                                <div class="t-right-area">
+                                    <div class="t-bar" style="width:70%; height:5px; background:#c0392b; border-radius:2px;"></div>
+                                    <div style="height:3px; background:rgba(192,57,43,0.2); border-radius:2px; width:85%"></div>
+                                    <div style="height:3px; background:rgba(192,57,43,0.15); border-radius:2px; width:60%"></div>
+                                </div>
+                            </div>
+                            <div class="t-name">Editorial</div>
+                            <div class="t-desc">Bold & creative</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="submit-row">
+                <a href="/" class="btn-ghost">Cancel</a>
+                <button type="submit" class="btn-submit">Preview Resume →</button>
+            </div>
+
+        </form>
+    </div>
+</body>
+</html>

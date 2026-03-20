@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ data.name }} – Resume</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Mulish:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: default !important; }
+
+        :root {
+            --bg:        #0d0f14;
+            --surface:   #13161e;
+            --surface2:  #1a1e28;
+            --border:    #252a38;
+            --green:     #3ddc84;
+            --green-dim: #2a9b5e;
+            --text:      #e8eaf0;
+            --muted:     #6b7280;
+            --muted2:    #9ca3af;
+        }
+
+        body {
+            font-family: 'Mulish', sans-serif;
+            background: #ffffff;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .page {
+            max-width: 860px;
+            margin: 0 auto;
+            background: var(--bg);
+            min-height: 900px;
+        }
+
+        /* ── TOP STRIP ── */
+        .top-strip {
+            height: 3px;
+            background: linear-gradient(90deg, var(--green-dim), var(--green), var(--green-dim));
+        }
+
+        /* ── HEADER ── */
+        .header {
+            padding: 44px 52px 40px;
+            border-bottom: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 32px;
+            align-items: end;
+            background: var(--surface);
+            position: relative;
+            overflow: hidden;
+        }
+        /* subtle grid texture */
+        .header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        .header-left { position: relative; z-index: 1; }
+        .name {
+            font-family: 'Syne', sans-serif;
+            font-size: 46px;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            color: var(--text);
+            line-height: 1;
+        }
+        .name em {
+            font-style: normal;
+            color: var(--green);
+        }
+        .job-title {
+            margin-top: 10px;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .header-right {
+            position: relative;
+            z-index: 1;
+            text-align: right;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            font-size: 12px;
+            color: var(--muted2);
+            margin-bottom: 7px;
+        }
+        .contact-item:last-child { margin-bottom: 0; }
+        .contact-dot {
+            width: 4px; height: 4px;
+            background: var(--green);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* ── BODY ── */
+        .body {
+            display: grid;
+            grid-template-columns: 1fr 220px;
+        }
+
+        /* ── MAIN ── */
+        .main {
+            padding: 40px 44px 48px 52px;
+            border-right: 1px solid var(--border);
+        }
+        .section { margin-bottom: 36px; }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+        .section-label {
+            font-family: 'Syne', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--green);
+        }
+        .section-rule {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .summary-text {
+            font-size: 13.5px;
+            color: var(--muted2);
+            line-height: 1.85;
+            font-weight: 300;
+        }
+
+        .exp-card {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--green);
+            border-radius: 4px;
+            padding: 18px 20px;
+            margin-bottom: 14px;
+        }
+        .exp-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .exp-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 5px 0 10px;
+        }
+        .exp-company { font-size: 12.5px; color: var(--green); font-weight: 500; }
+        .exp-duration {
+            font-size: 11px;
+            color: var(--muted);
+            background: var(--border);
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-family: 'Syne', sans-serif;
+        }
+        .exp-desc {
+            font-size: 12.5px;
+            color: var(--muted2);
+            line-height: 1.75;
+            white-space: pre-line;
+            font-weight: 300;
+        }
+
+        .edu-card {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 16px 20px;
+        }
+        .edu-degree {
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .edu-inst  { font-size: 12.5px; color: var(--green); margin-top: 4px; }
+        .edu-meta  { font-size: 11.5px; color: var(--muted); margin-top: 3px; }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            padding: 40px 28px 48px;
+            background: var(--surface);
+        }
+        .sidebar-section { margin-bottom: 30px; }
+        .sidebar-label {
+            font-family: 'Syne', sans-serif;
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+        .skill-bar-wrap { margin-bottom: 10px; }
+        .skill-name {
+            font-size: 12px;
+            color: var(--muted2);
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .skill-bar-bg {
+            height: 3px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .skill-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--green-dim), var(--green));
+            border-radius: 2px;
+        }
+        .soft-row {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 12.5px;
+            color: var(--muted2);
+            padding: 6px 0;
+            border-bottom: 1px solid var(--border);
+            font-weight: 300;
+        }
+        .soft-row:last-child { border-bottom: none; }
+        .soft-icon {
+            color: var(--green);
+            font-size: 10px;
+        }
+
+        /* ── HIDDEN BUTTONS ── */
+        .no-print { display: none; }
+
+        /* ── FLOATING ACTION BAR ── */
+        .action-bar {
+            position: fixed;
+            bottom: 28px; right: 32px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            z-index: 999;
+        }
+        .action-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--green);
+            color: #0d0f14;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Syne', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer !important;
+            text-decoration: none;
+            box-shadow: 0 4px 24px rgba(61,220,132,0.35);
+            transition: all 0.2s;
+            letter-spacing: 0.3px;
+        }
+        .action-primary:hover {
+            background: #5af0a0;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(61,220,132,0.5);
+            cursor: pointer !important;
+        }
+        .action-secondary {
+            display: inline-flex;
+            align-items: center;
+            background: var(--surface2);
+            color: var(--muted2);
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-family: 'Mulish', sans-serif;
+            font-size: 13px;
+            cursor: pointer !important;
+            text-decoration: none;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+        .action-secondary:hover { border-color: var(--green); color: var(--green); }
+
+        @media print {
+            body { background: white; }
+            .action-bar, .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <div class="top-strip"></div>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-left">
+            <div class="name">{{ data.name }}</div>
+            {% if data.job_title %}<div class="job-title">{{ data.job_title }}</div>{% endif %}
+        </div>
+        <div class="header-right">
+            {% if data.email %}
+            <div class="contact-item"><span>{{ data.email }}</span><span class="contact-dot"></span></div>{% endif %}
+            {% if data.phone %}
+            <div class="contact-item"><span>{{ data.phone }}</span><span class="contact-dot"></span></div>{% endif %}
+            {% if data.location %}
+            <div class="contact-item"><span>{{ data.location }}</span><span class="contact-dot"></span></div>{% endif %}
+            {% if data.linkedin %}
+            <div class="contact-item"><span>{{ data.linkedin }}</span><span class="contact-dot"></span></div>{% endif %}
+        </div>
+    </div>
+
+    <!-- BODY -->
+    <div class="body">
+        <div class="main">
+            {% if data.summary %}
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-label">About</div>
+                    <div class="section-rule"></div>
+                </div>
+                <p class="summary-text">{{ data.summary }}</p>
+            </div>
+            {% endif %}
+
+            {% if data.exp_title or data.exp_company %}
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-label">Experience</div>
+                    <div class="section-rule"></div>
+                </div>
+                <div class="exp-card">
+                    {% if data.exp_title %}<div class="exp-title">{{ data.exp_title }}</div>{% endif %}
+                    <div class="exp-row">
+                        <span class="exp-company">{{ data.exp_company }}</span>
+                        {% if data.exp_duration %}<span class="exp-duration">{{ data.exp_duration }}</span>{% endif %}
+                    </div>
+                    {% if data.exp_desc %}<div class="exp-desc">{{ data.exp_desc }}</div>{% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if data.edu_degree %}
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-label">Education</div>
+                    <div class="section-rule"></div>
+                </div>
+                <div class="edu-card">
+                    <div class="edu-degree">{{ data.edu_degree }}</div>
+                    {% if data.edu_institution %}<div class="edu-inst">{{ data.edu_institution }}</div>{% endif %}
+                    <div class="edu-meta">
+                        {% if data.edu_year %}{{ data.edu_year }}{% endif %}
+                        {% if data.edu_grade %} · {{ data.edu_grade }}{% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            {% if data.skills %}
+            <div class="sidebar-section">
+                <div class="sidebar-label">Skills</div>
+                {% for skill in data.skills.split(',') %}
+                <div class="skill-bar-wrap">
+                    <div class="skill-name"><span>{{ skill.strip() }}</span></div>
+                    <div class="skill-bar-bg">
+                        <div class="skill-bar-fill" style="width: {{ [75, 90, 65, 85, 70, 80, 60, 95] | random }}%"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if data.soft_skills %}
+            <div class="sidebar-section">
+                <div class="sidebar-label">Soft Skills</div>
+                {% for s in data.soft_skills.split(',') %}
+                    <div class="soft-row"><span class="soft-icon">▸</span>{{ s.strip() }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="no-print">
+        <form action="/download" method="POST" style="display:inline;">
+            {% for key, value in data.items() %}
+                <input type="hidden" name="{{ key }}" value="{{ value }}">
+            {% endfor %}
+            <button type="submit">Download PDF</button>
+        </form>
+    </div>
+</div>
+
+<!-- Floating pill buttons -->
+<div class="action-bar no-print">
+    <a href="/form" class="action-secondary">← Edit</a>
+    <form action="/download" method="POST" style="display:inline;">
+        {% for key, value in data.items() %}
+            <input type="hidden" name="{{ key }}" value="{{ value }}">
+        {% endfor %}
+        <button type="submit" class="action-primary">⬇ Download PDF</button>
+    </form>
+</div>
+
+</body>
+</html>

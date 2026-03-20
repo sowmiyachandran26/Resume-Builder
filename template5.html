@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ data.name }} – Resume</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fraunces:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: default !important; }
+
+        :root {
+            --rust:    #c0392b;
+            --rust2:   #e74c3c;
+            --ink:     #1c1c1c;
+            --cream:   #faf9f6;
+            --warm:    #f0ece4;
+            --muted:   #6b6460;
+            --border:  #ddd8d0;
+        }
+
+        body {
+            font-family: 'Fraunces', serif;
+            background: #ffffff;
+            color: var(--ink);
+            line-height: 1.6;
+        }
+
+        .page {
+            max-width: 860px;
+            margin: 0 auto;
+            background: var(--cream);
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            min-height: 900px;
+        }
+
+        /* ── LEFT PANEL ── */
+        .left-panel {
+            background: var(--ink);
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        /* diagonal cut at top */
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 6px;
+            background: var(--rust);
+        }
+
+        .left-name-block {
+            padding: 48px 32px 36px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .left-tag {
+            font-family: 'DM Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--rust2);
+            margin-bottom: 14px;
+            font-weight: 300;
+        }
+        .left-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 52px;
+            letter-spacing: 2px;
+            color: #ffffff;
+            line-height: 0.95;
+        }
+        .left-title {
+            font-family: 'Fraunces', serif;
+            font-size: 13px;
+            font-style: italic;
+            font-weight: 300;
+            color: rgba(255,255,255,0.5);
+            margin-top: 12px;
+            line-height: 1.5;
+        }
+
+        /* contact block */
+        .left-contacts {
+            padding: 28px 32px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .left-section-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 8px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--rust2);
+            margin-bottom: 14px;
+            font-weight: 400;
+        }
+        .contact-line {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 9px;
+            font-size: 11.5px;
+            color: rgba(255,255,255,0.6);
+            font-family: 'DM Mono', monospace;
+            font-weight: 300;
+            line-height: 1.4;
+            word-break: break-all;
+        }
+        .contact-line-dash {
+            color: var(--rust2);
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        /* skills block */
+        .left-skills {
+            padding: 28px 32px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .skill-pill {
+            display: inline-block;
+            border: 1px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.75);
+            font-size: 11px;
+            padding: 4px 11px;
+            border-radius: 2px;
+            margin: 3px 2px;
+            font-family: 'DM Mono', monospace;
+            font-weight: 300;
+            transition: border-color 0.2s;
+        }
+
+        .left-soft {
+            padding: 28px 32px;
+            flex: 1;
+        }
+        .soft-item {
+            font-size: 12.5px;
+            color: rgba(255,255,255,0.55);
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            font-family: 'Fraunces', serif;
+            font-weight: 300;
+            font-style: italic;
+        }
+        .soft-item:last-child { border-bottom: none; }
+
+        /* ── RIGHT PANEL ── */
+        .right-panel {
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* big editorial name stamp at top */
+        .right-top {
+            background: var(--rust);
+            padding: 20px 44px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .right-top-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.6);
+            text-transform: uppercase;
+        }
+        .right-top-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            color: rgba(255,255,255,0.25);
+            letter-spacing: 4px;
+        }
+
+        .right-body { padding: 40px 44px 48px; flex: 1; }
+
+        .r-section { margin-bottom: 36px; }
+        .r-section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            letter-spacing: 3px;
+            color: var(--ink);
+            line-height: 1;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .r-title-line {
+            flex: 1;
+            height: 2px;
+            background: var(--rust);
+            opacity: 0.25;
+        }
+
+        .summary-text {
+            font-size: 15px;
+            font-weight: 300;
+            color: #3a3530;
+            line-height: 1.85;
+        }
+        .summary-text em { font-style: italic; color: var(--rust); }
+
+        .exp-block { margin-bottom: 20px; }
+        .exp-title {
+            font-family: 'Fraunces', serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+        .exp-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 5px 0 10px;
+        }
+        .exp-company {
+            font-family: 'DM Mono', monospace;
+            font-size: 11.5px;
+            color: var(--rust);
+            font-weight: 400;
+        }
+        .exp-duration {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: var(--muted);
+            background: var(--warm);
+            padding: 3px 10px;
+            border-radius: 2px;
+            border: 1px solid var(--border);
+        }
+        .exp-desc {
+            font-size: 13.5px;
+            color: #5a5550;
+            line-height: 1.8;
+            white-space: pre-line;
+            font-weight: 300;
+        }
+
+        .edu-block {
+            background: var(--warm);
+            border-left: 3px solid var(--rust);
+            padding: 16px 20px;
+            border-radius: 0 4px 4px 0;
+        }
+        .edu-degree {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+        .edu-inst {
+            font-family: 'DM Mono', monospace;
+            font-size: 11.5px;
+            color: var(--rust);
+            margin-top: 4px;
+        }
+        .edu-meta {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        /* ── HIDDEN BUTTONS ── */
+        .no-print { display: none; }
+
+        /* ── FLOATING ACTION BAR ── */
+        .action-bar {
+            position: fixed;
+            bottom: 28px; right: 32px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            z-index: 999;
+        }
+        .action-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--rust);
+            color: #ffffff;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 30px;
+            font-family: 'DM Mono', monospace;
+            font-size: 12.5px;
+            font-weight: 400;
+            cursor: pointer !important;
+            text-decoration: none;
+            box-shadow: 0 4px 24px rgba(192,57,43,0.4);
+            transition: all 0.2s;
+            letter-spacing: 0.5px;
+        }
+        .action-primary:hover {
+            background: var(--rust2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(231,76,60,0.45);
+            cursor: pointer !important;
+        }
+        .action-secondary {
+            display: inline-flex;
+            align-items: center;
+            background: var(--cream);
+            color: var(--muted);
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            cursor: pointer !important;
+            text-decoration: none;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+        .action-secondary:hover { border-color: var(--rust); color: var(--rust); }
+
+        @media print {
+            .action-bar, .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+        <div class="left-name-block">
+            <div class="left-tag">// Curriculum Vitae</div>
+            <div class="left-name">{{ data.name }}</div>
+            {% if data.job_title %}<div class="left-title">{{ data.job_title }}</div>{% endif %}
+        </div>
+
+        <div class="left-contacts">
+            <div class="left-section-label">Contact</div>
+            {% if data.email %}
+            <div class="contact-line"><span class="contact-line-dash">→</span>{{ data.email }}</div>{% endif %}
+            {% if data.phone %}
+            <div class="contact-line"><span class="contact-line-dash">→</span>{{ data.phone }}</div>{% endif %}
+            {% if data.location %}
+            <div class="contact-line"><span class="contact-line-dash">→</span>{{ data.location }}</div>{% endif %}
+            {% if data.linkedin %}
+            <div class="contact-line"><span class="contact-line-dash">→</span>{{ data.linkedin }}</div>{% endif %}
+        </div>
+
+        {% if data.skills %}
+        <div class="left-skills">
+            <div class="left-section-label">Tech Stack</div>
+            {% for skill in data.skills.split(',') %}
+                <span class="skill-pill">{{ skill.strip() }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if data.soft_skills %}
+        <div class="left-soft">
+            <div class="left-section-label">Strengths</div>
+            {% for s in data.soft_skills.split(',') %}
+                <div class="soft-item">{{ s.strip() }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+        <div class="right-top">
+            <div class="right-top-label">Professional Resume</div>
+            <div class="right-top-number">VOL. I</div>
+        </div>
+
+        <div class="right-body">
+            {% if data.summary %}
+            <div class="r-section">
+                <div class="r-section-title">Profile <span class="r-title-line"></span></div>
+                <p class="summary-text">{{ data.summary }}</p>
+            </div>
+            {% endif %}
+
+            {% if data.exp_title or data.exp_company %}
+            <div class="r-section">
+                <div class="r-section-title">Experience <span class="r-title-line"></span></div>
+                <div class="exp-block">
+                    {% if data.exp_title %}<div class="exp-title">{{ data.exp_title }}</div>{% endif %}
+                    <div class="exp-meta">
+                        <span class="exp-company">{{ data.exp_company }}</span>
+                        {% if data.exp_duration %}<span class="exp-duration">{{ data.exp_duration }}</span>{% endif %}
+                    </div>
+                    {% if data.exp_desc %}<div class="exp-desc">{{ data.exp_desc }}</div>{% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if data.edu_degree %}
+            <div class="r-section">
+                <div class="r-section-title">Education <span class="r-title-line"></span></div>
+                <div class="edu-block">
+                    <div class="edu-degree">{{ data.edu_degree }}</div>
+                    {% if data.edu_institution %}<div class="edu-inst">{{ data.edu_institution }}</div>{% endif %}
+                    <div class="edu-meta">
+                        {% if data.edu_year %}{{ data.edu_year }}{% endif %}
+                        {% if data.edu_grade %} · {{ data.edu_grade }}{% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="no-print">
+        <form action="/download" method="POST" style="display:inline;">
+            {% for key, value in data.items() %}
+                <input type="hidden" name="{{ key }}" value="{{ value }}">
+            {% endfor %}
+            <button type="submit">Download PDF</button>
+        </form>
+    </div>
+</div>
+
+<!-- Floating pill buttons -->
+<div class="action-bar no-print">
+    <a href="/form" class="action-secondary">← Edit</a>
+    <form action="/download" method="POST" style="display:inline;">
+        {% for key, value in data.items() %}
+            <input type="hidden" name="{{ key }}" value="{{ value }}">
+        {% endfor %}
+        <button type="submit" class="action-primary">⬇ Download PDF</button>
+    </form>
+</div>
+
+</body>
+</html>

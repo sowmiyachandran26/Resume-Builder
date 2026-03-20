@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ data.name }} – Resume</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: default !important; }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            background: #ffffff;
+            color: #2d2016;
+            line-height: 1.65;
+        }
+        .page {
+            max-width: 860px;
+            margin: 0 auto;
+            background: #fffdf9;
+        }
+
+        /* ── HEADER ── */
+        .header {
+            padding: 52px 56px 40px;
+            text-align: center;
+            border-bottom: 1px solid #e8ddd0;
+            position: relative;
+            background: #fffdf9;
+        }
+        /* decorative corner lines */
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 20px; left: 20px;
+            width: 48px; height: 48px;
+            border-top: 2px solid #d4692a;
+            border-left: 2px solid #d4692a;
+            opacity: 0.4;
+        }
+        .header::after {
+            content: '';
+            position: absolute;
+            top: 20px; right: 20px;
+            width: 48px; height: 48px;
+            border-top: 2px solid #d4692a;
+            border-right: 2px solid #d4692a;
+            opacity: 0.4;
+        }
+        .header-bottom-corners {
+            position: absolute;
+            bottom: -1px; left: 0; right: 0;
+            pointer-events: none;
+        }
+        .header-bottom-corners::before {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 20px;
+            width: 48px; height: 48px;
+            border-bottom: 2px solid #d4692a;
+            border-left: 2px solid #d4692a;
+            opacity: 0.4;
+        }
+        .header-bottom-corners::after {
+            content: '';
+            position: absolute;
+            bottom: 0; right: 20px;
+            width: 48px; height: 48px;
+            border-bottom: 2px solid #d4692a;
+            border-right: 2px solid #d4692a;
+            opacity: 0.4;
+        }
+        .name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 56px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: #2d2016;
+            line-height: 1;
+        }
+        .job-title {
+            font-size: 11px;
+            letter-spacing: 3.5px;
+            text-transform: uppercase;
+            color: #d4692a;
+            margin-top: 12px;
+            font-weight: 400;
+        }
+        /* ornamental divider */
+        .ornament {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 16px 0 14px;
+        }
+        .ornament-line {
+            width: 80px; height: 1px;
+            background: linear-gradient(90deg, transparent, #d4692a);
+        }
+        .ornament-line.right {
+            background: linear-gradient(90deg, #d4692a, transparent);
+        }
+        .ornament-diamond {
+            color: #d4692a;
+            font-size: 9px;
+            letter-spacing: 4px;
+        }
+        .contact-row {
+            font-size: 12px;
+            color: #7a6040;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .contact-item {
+            padding: 0 16px;
+            border-right: 1px solid #d8cfc0;
+            line-height: 1;
+            margin: 3px 0;
+        }
+        .contact-item:last-child { border-right: none; }
+
+        /* ── BODY ── */
+        .body {
+            display: grid;
+            grid-template-columns: 1fr 200px;
+        }
+
+        /* ── MAIN ── */
+        .main-col {
+            padding: 40px 44px 44px 56px;
+            border-right: 1px solid #e8ddd0;
+        }
+        .section { margin-bottom: 28px; }
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 21px;
+            font-weight: 600;
+            color: #2d2016;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .section-rule {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, #d4692a88, transparent);
+        }
+        .summary-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 17px;
+            font-style: italic;
+            color: #5a4030;
+            line-height: 1.85;
+        }
+        .exp-title { font-size: 14.5px; font-weight: 500; color: #2d2016; }
+        .exp-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 4px 0 8px;
+        }
+        .exp-company { font-size: 12.5px; color: #d4692a; font-weight: 500; }
+        .exp-duration {
+            font-size: 11.5px;
+            color: #9a8060;
+            background: #faf3ec;
+            padding: 2px 9px;
+            border-radius: 20px;
+        }
+        .exp-desc { font-size: 13px; color: #5a4030; line-height: 1.75; white-space: pre-line; }
+
+        .edu-degree { font-size: 14px; font-weight: 500; color: #2d2016; }
+        .edu-inst   { font-size: 12.5px; color: #d4692a; margin-top: 3px; }
+        .edu-meta   { font-size: 12px; color: #9a8060; margin-top: 3px; }
+
+        /* ── SIDEBAR ── */
+        .sidebar-col {
+            padding: 40px 28px 44px 28px;
+            background: #faf6f0;
+        }
+        .sidebar-section { margin-bottom: 26px; }
+        .sidebar-label {
+            font-size: 9px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: #d4692a;
+            font-weight: 500;
+            margin-bottom: 12px;
+            padding-bottom: 7px;
+            border-bottom: 1px solid #e8ddd0;
+        }
+        .skill-tag {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12.5px;
+            color: #2d2016;
+            padding: 6px 0;
+            border-bottom: 1px dashed #e8ddd0;
+        }
+        .skill-tag:last-child { border-bottom: none; }
+        .skill-tag::before {
+            content: '';
+            width: 4px; height: 4px;
+            background: #d4692a;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* ── HIDDEN INNER BUTTONS ── */
+        .no-print { display: none; }
+
+        /* ── FLOATING ACTION BAR ── */
+        .action-bar {
+            position: fixed;
+            bottom: 28px; right: 32px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            z-index: 999;
+        }
+        .action-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #2d2016;
+            color: #fffdf9;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Jost', sans-serif;
+            font-size: 13.5px;
+            font-weight: 500;
+            cursor: pointer !important;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(45,32,22,0.3);
+            transition: all 0.2s;
+            letter-spacing: 0.3px;
+        }
+        .action-primary:hover {
+            background: #d4692a;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(212,105,42,0.4);
+            cursor: pointer !important;
+        }
+        .action-secondary {
+            display: inline-flex;
+            align-items: center;
+            background: #fffdf9;
+            color: #7a6040;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-family: 'Jost', sans-serif;
+            font-size: 13px;
+            cursor: pointer !important;
+            text-decoration: none;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            border: 1px solid #d8cfc0;
+            transition: all 0.2s;
+        }
+        .action-secondary:hover { border-color: #d4692a; color: #d4692a; }
+
+        @media print {
+            .action-bar, .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-bottom-corners"></div>
+        <div class="name">{{ data.name }}</div>
+        {% if data.job_title %}<div class="job-title">{{ data.job_title }}</div>{% endif %}
+        <div class="ornament">
+            <div class="ornament-line"></div>
+            <div class="ornament-diamond">◆ ◆ ◆</div>
+            <div class="ornament-line right"></div>
+        </div>
+        <div class="contact-row">
+            {% if data.email %}<span class="contact-item">{{ data.email }}</span>{% endif %}
+            {% if data.phone %}<span class="contact-item">{{ data.phone }}</span>{% endif %}
+            {% if data.location %}<span class="contact-item">{{ data.location }}</span>{% endif %}
+            {% if data.linkedin %}<span class="contact-item">{{ data.linkedin }}</span>{% endif %}
+        </div>
+    </div>
+
+    <!-- BODY -->
+    <div class="body">
+        <div class="main-col">
+            {% if data.summary %}
+            <div class="section">
+                <div class="section-title">Profile <span class="section-rule"></span></div>
+                <p class="summary-text">{{ data.summary }}</p>
+            </div>
+            {% endif %}
+
+            {% if data.exp_title or data.exp_company %}
+            <div class="section">
+                <div class="section-title">Experience <span class="section-rule"></span></div>
+                {% if data.exp_title %}<div class="exp-title">{{ data.exp_title }}</div>{% endif %}
+                <div class="exp-row">
+                    <span class="exp-company">{{ data.exp_company }}</span>
+                    {% if data.exp_duration %}<span class="exp-duration">{{ data.exp_duration }}</span>{% endif %}
+                </div>
+                {% if data.exp_desc %}<div class="exp-desc">{{ data.exp_desc }}</div>{% endif %}
+            </div>
+            {% endif %}
+
+            {% if data.edu_degree %}
+            <div class="section">
+                <div class="section-title">Education <span class="section-rule"></span></div>
+                <div class="edu-degree">{{ data.edu_degree }}</div>
+                {% if data.edu_institution %}<div class="edu-inst">{{ data.edu_institution }}</div>{% endif %}
+                <div class="edu-meta">
+                    {% if data.edu_year %}{{ data.edu_year }}{% endif %}
+                    {% if data.edu_grade %} &middot; {{ data.edu_grade }}{% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="sidebar-col">
+            {% if data.skills %}
+            <div class="sidebar-section">
+                <div class="sidebar-label">Technical Skills</div>
+                {% for skill in data.skills.split(',') %}
+                    <div class="skill-tag">{{ skill.strip() }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if data.soft_skills %}
+            <div class="sidebar-section">
+                <div class="sidebar-label">Soft Skills</div>
+                {% for s in data.soft_skills.split(',') %}
+                    <div class="skill-tag">{{ s.strip() }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="no-print">
+        <form action="/download" method="POST" style="display:inline;">
+            {% for key, value in data.items() %}
+                <input type="hidden" name="{{ key }}" value="{{ value }}">
+            {% endfor %}
+            <button type="submit">Download PDF</button>
+        </form>
+    </div>
+</div>
+
+<div class="action-bar no-print">
+    <a href="/form" class="action-secondary">← Edit</a>
+    <form action="/download" method="POST" style="display:inline;">
+        {% for key, value in data.items() %}
+            <input type="hidden" name="{{ key }}" value="{{ value }}">
+        {% endfor %}
+        <button type="submit" class="action-primary">⬇ Download PDF</button>
+    </form>
+</div>
+
+</body>
+</html>
